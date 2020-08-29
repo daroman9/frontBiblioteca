@@ -26,31 +26,17 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="nombre"
-                      label="Nombre"
-                    ></v-text-field>
+                    <v-text-field v-model="nombre" label="Nombre"></v-text-field>
                   </v-flex>
                   <v-spacer></v-spacer>
                   <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="validacion"
-                      label="Validación"
-                    ></v-text-field>
+                    <v-text-field v-model="validacion" label="Validación"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="mensaje"
-                      label="Mensaje"
-                    ></v-text-field>
+                    <v-text-field v-model="mensaje" label="Mensaje"></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md12 v-show="valida">
-                    <div
-                      class="red--text"
-                      v-for="v in validaMensaje"
-                      :key="v"
-                      v-text="v"
-                    ></div>
+                    <div class="red--text" v-for="v in validaMensaje" :key="v" v-text="v"></div>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -73,47 +59,34 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md12>
-                    <v-card-text>
-                      ¿Estas seguro que deseas eliminar la validación?
-                    </v-card-text>
+                    <v-card-text>¿Estas seguro que deseas eliminar la validación?</v-card-text>
                   </v-flex>
                   <v-spacer></v-spacer>
-                  <v-flex xs12 sm6 md12 class="red--text" v-if="errorM">{{
+                  <v-flex xs12 sm6 md12 class="red--text" v-if="errorM">
+                    {{
                     errorM
-                  }}</v-flex>
+                    }}
+                  </v-flex>
                 </v-layout>
               </v-container>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" flat @click="closeEliminar"
-                >Cancelar</v-btn
-              >
-              <v-btn color="blue darken-1" flat @click="eliminar"
-                >Guardar</v-btn
-              >
+              <v-btn color="blue darken-1" flat @click="closeEliminar">Cancelar</v-btn>
+              <v-btn color="blue darken-1" flat @click="eliminar">Guardar</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-toolbar>
-      <v-data-table
-        :headers="headers"
-        :items="validaciones"
-        :search="search"
-        class="elevation-1"
-      >
+      <v-data-table :headers="headers" :items="validaciones" :search="search" class="elevation-1">
         <template v-slot:items="props">
           <td>{{ props.item.id }}</td>
           <td>{{ props.item.nombre }}</td>
           <td>{{ props.item.validacion }}</td>
           <td>{{ props.item.mensaje }}</td>
           <td class="justify-center layout px-0">
-            <v-icon small class="mr-2" @click="editItem(props.item)"
-              >edit</v-icon
-            >
-            <v-icon small class="mr-2" @click="eliminarItem(props.item)"
-              >delete</v-icon
-            >
+            <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
+            <v-icon small class="mr-2" @click="eliminarItem(props.item)">delete</v-icon>
           </td>
         </template>
         <template v-slot:no-data>
@@ -163,6 +136,7 @@ export default {
   watch: {
     dialog(val) {
       val || this.close();
+      this.limpiar();
     },
   },
   created() {
@@ -173,10 +147,10 @@ export default {
       let me = this;
       axios
         .get("validaciones")
-        .then(function(response) {
+        .then(function (response) {
           me.validaciones = response.data;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -223,12 +197,12 @@ export default {
             validacion: this.validacion,
             mensaje: this.mensaje,
           })
-          .then(function(response) {
+          .then(function (response) {
             me.limpiar();
             me.close();
             me.listar();
           })
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
           });
       } else {
@@ -239,12 +213,12 @@ export default {
             validacion: this.validacion,
             mensaje: this.mensaje,
           })
-          .then(function(response) {
+          .then(function (response) {
             me.limpiar();
             me.close();
             me.listar();
           })
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
           });
       }
@@ -253,7 +227,7 @@ export default {
       let me = this;
       axios
         .delete("validaciones/" + this._id, {})
-        .then(function(response) {
+        .then(function (response) {
           me.limpiar();
           me.closeEliminar();
           me.listar();

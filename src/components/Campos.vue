@@ -163,18 +163,40 @@
             <v-text-field v-model="descripcion" label="Descripción"></v-text-field>
           </v-flex>
           <v-flex xs12 sm6 md6 lg6 xl6>
-            <v-text-field v-model="valor_maximo" label="Valor Maximo"></v-text-field>
+            <label>Tipo</label>
+            <v-select
+              v-bind:items="['string', 'integer', 'float', 'bool', 'table',  'select', 'money', 'capture', 'date', 'latitud', 'longitud', 'months_multiple', ]"
+              v-model="tipo"
+              autocomplete
+              no-data-text="No hay datos con esta descripción"
+              item-value="tipo"
+              persistent-hint
+              single-line
+              @change="changeTipo"
+              bottom
+            ></v-select>
           </v-flex>
           <v-flex xs12 sm6 md6 lg6 xl6>
-            <v-text-field v-model="valor_minimo" label="Valor Minimo"></v-text-field>
+            <label>Maestro</label>
+            <v-select
+              :label="`${selector}`"
+              v-bind:items="selectores"
+              item-text="nombre"
+              autocomplete
+              no-data-text="No hay datos con esta descripción"
+              item-value="id"
+              persistent-hint
+              single-line
+              @change="selectSelector"
+              bottom
+            ></v-select>
           </v-flex>
           <v-flex xs12 sm6 md6 lg6 xl6>
-            <v-text-field v-model="valor_defecto" label="Valor Defecto"></v-text-field>
+            <v-text-field v-model="unidad" label="Unidad"></v-text-field>
           </v-flex>
           <v-flex xs12 sm6 md6 lg6 xl6>
-            <v-text-field v-model="rangos" label="Rangos"></v-text-field>
+            <v-text-field v-model="orden" label="Orden"></v-text-field>
           </v-flex>
-
           <v-flex xs12 sm6 md6 lg6 xl6>
             <label>Visible</label>
             <v-select
@@ -205,25 +227,50 @@
             ></v-select>
           </v-flex>
           <v-flex xs12 sm6 md6 lg6 xl6>
-            <v-text-field v-model="orden" label="Orden"></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm6 md6 lg6 xl6>
-            <label>Tipo</label>
+            <label>Deshabilitado</label>
             <v-select
-              v-bind:items="['string', 'integer', 'float', 'bool', 'table',  'select', 'money', 'capture', 'date', 'latitud', 'longitud', 'months_multiple', ]"
-              v-model="tipo"
+              v-bind:items="['SI', 'NO']"
               autocomplete
+              v-model="tipoDisabled"
               no-data-text="No hay datos con esta descripción"
-              item-value="tipo"
+              item-value="disabled"
               persistent-hint
               single-line
-              @change="changeTipo"
+              @change="changeDisabled"
               bottom
             ></v-select>
           </v-flex>
           <v-flex xs12 sm6 md6 lg6 xl6>
-            <v-text-field v-model="unidad" label="Unidad"></v-text-field>
+            <label>Validación</label>
+            <v-select
+              :label="`${validacion}`"
+              v-bind:items="validaciones"
+              item-text="nombre"
+              autocomplete
+              no-data-text="No hay datos con esta descripción"
+              item-value="id"
+              persistent-hint
+              single-line
+              @change="selectSelector"
+              bottom
+            ></v-select>
           </v-flex>
+          <v-flex xs12 sm6 md6 lg6 xl6>
+            <v-text-field v-model="tipo_teclado" label="Teclado"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm6 md6 lg6 xl6>
+            <v-text-field v-model="valor_maximo" label="Valor Maximo"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm6 md6 lg6 xl6>
+            <v-text-field v-model="valor_minimo" label="Valor Minimo"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm6 md6 lg6 xl6>
+            <v-text-field v-model="valor_defecto" label="Valor Defecto"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm6 md6 lg6 xl6>
+            <v-text-field v-model="rangos" label="Rangos"></v-text-field>
+          </v-flex>
+
           <v-flex xs12 sm6 md6 lg6 xl6>
             <v-text-field v-model="enableCategories" label="Habilitar Categorias"></v-text-field>
           </v-flex>
@@ -236,36 +283,7 @@
           <v-flex xs12 sm6 md6 lg6 xl6>
             <v-text-field v-model="disableFields" label="Deshabilitar Campos"></v-text-field>
           </v-flex>
-          <v-flex xs12 sm6 md6 lg6 xl6>
-            <v-flex>
-              <v-select
-                :label="`${selector}`"
-                v-bind:items="selectores"
-                item-text="nombre"
-                autocomplete
-                no-data-text="No hay datos con esta descripción"
-                item-value="id"
-                persistent-hint
-                single-line
-                @change="selectSelector"
-                bottom
-              ></v-select>
-            </v-flex>
-            <v-text-field v-model="id_validacion" label="Validación"></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm12 md12 lg12 xl12>
-            <label>Deshabilitado {{tipoDisabled}}</label>
-            <v-select
-              v-bind:items="['SI', 'NO']"
-              autocomplete
-              no-data-text="No hay datos con esta descripción"
-              item-value="disabled"
-              persistent-hint
-              single-line
-              @change="changeDisabled"
-              bottom
-            ></v-select>
-          </v-flex>
+
           <v-flex xs12 sm2 md2 lg2 xl2 v-show="errorM">
             <div class="red--text" v-text="errorM"></div>
           </v-flex>
@@ -304,6 +322,7 @@ export default {
       visible: "",
       tipo: "",
       unidad: "",
+      tipo_teclado: "",
       disabled: "",
       enableCategories: "",
       enableFields: "",
@@ -315,6 +334,7 @@ export default {
       required: "",
       id_selector: "",
       id_validacion: "",
+      validacion: "No seleccionado",
       selector: "No seleccionado",
       plantillaSeleccionada: 0,
       categoriaSeleccionada: 0,
@@ -325,6 +345,7 @@ export default {
       campos: [],
       categoriasbyPlantilla: [],
       selectores: [],
+      validaciones: [],
       plantillas: [],
       verPlantillasAspectos: 0,
       errorM: null,
@@ -342,7 +363,6 @@ export default {
       ],
       deleteItem: 0,
       editedIndex: 0,
-
       editedItem: {
         name: "",
       },
@@ -362,6 +382,7 @@ export default {
     this.listar();
     this.listarAspectos();
     this.listarSelectores();
+    this.listarValidaciones();
     this.limpiar();
   },
   methods: {
@@ -389,7 +410,6 @@ export default {
           console.log(error);
         });
     },
-
     listarSelectores() {
       let me = this;
       axios
@@ -401,14 +421,34 @@ export default {
           console.log(error);
         });
     },
-
+    listarValidacion() {
+      let me = this;
+      axios
+        .get("validaciones/" + this.id_validacion)
+        .then(function (response) {
+          me.validacion = response.data.nombre;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    listarValidaciones() {
+      let me = this;
+      axios
+        .get("validaciones")
+        .then(function (response) {
+          me.validaciones = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     listarByAspecto(value) {
       let me = this;
       axios
         .get("campos/byPlantilla/" + value)
         .then(function (response) {
           me.campos = response.data;
-
           me.listarByPlantilla(value);
         })
         .catch(function (error) {
@@ -460,6 +500,7 @@ export default {
         (this.disableCategories = ""),
         (this.disableFields = ""),
         (this.id_selector = ""),
+        (this.tipo_teclado = ""),
         (this.id_validacion = ""),
         (this.selector = "No seleccionado"),
         (this.errorM = ""),
@@ -498,85 +539,76 @@ export default {
     //Metodo de validación para
     validarGuardado() {
       this.errors = [];
-
       if (this.plantillaSeleccionada === 0) {
         this.errors.push("Debe seleccionar un aspecto");
-
         return false;
       }
       if (this.categoriaSeleccionada === 0) {
         this.errors.push("Debe seleccionar una categoria");
-
         return false;
       }
       if (this.nombre === "") {
         this.errors.push("Debe agregar un nombre");
-
         return false;
       }
       if (this.tipo === "") {
         this.errors.push("Debe agregar un tipo");
-
         return false;
       }
       if (isNaN(this.valor_maximo)) {
         this.errors.push("Ingrese solo números para el valor maximo");
-
         return false;
       }
       if (isNaN(this.valor_minimo)) {
         this.errors.push("Ingrese solo números para el valor minimo");
-
         return false;
       }
       if (isNaN(this.valor_defecto)) {
         this.errors.push("Ingrese solo números para el valor por defecto");
-
         return false;
       }
       if (isNaN(this.rangos)) {
         this.errors.push("Ingrese solo números para el rango");
-
         return false;
       }
       if (isNaN(this.orden)) {
         this.errors.push("Ingrese solo números para el orden de la categoria");
-
         return false;
       }
-
+      if (isNaN(this.tipo_teclado)) {
+        this.errors.push("Ingrese solo números para el tipo de teclado");
+        return false;
+      }
       return true;
     },
     validarEditar() {
       this.errors = [];
       if (isNaN(this.valor_maximo)) {
         this.errors.push("Ingrese solo números para el valor maximo");
-
         return false;
       }
       if (isNaN(this.valor_minimo)) {
         this.errors.push("Ingrese solo números para el valor minimo");
-
         return false;
       }
       if (isNaN(this.valor_defecto)) {
         this.errors.push("Ingrese solo números para el valor por defecto");
-
         return false;
       }
       if (isNaN(this.rangos)) {
         this.errors.push("Ingrese solo números para el rango");
-
         return false;
       }
       if (isNaN(this.orden)) {
         this.errors.push("Ingrese solo números para el orden de la categoria");
-
         return false;
       }
       if (this.nombre === "") {
         this.errors.push("Debe agregar un nombre");
-
+        return false;
+      }
+      if (isNaN(this.tipo_teclado)) {
+        this.errors.push("Ingrese solo números para el tipo de teclado");
         return false;
       }
       return true;
@@ -584,7 +616,6 @@ export default {
     //Metodo que permite realizar el guardado de una nueva categoria o editarla
     guardado() {
       let me = this;
-
       if (me.editedIndex === 0) {
         //Aca se realiza el guardado de una categoria nueva
         if (this.validarGuardado()) {
@@ -613,6 +644,7 @@ export default {
               id_selector: this.id_selector,
               id_validacion: this.id_validacion,
               disabled: this.disabled,
+              tipo_teclado: this.tipo_teclado,
             })
             .then(function (response) {
               me.verNuevo = 0;
@@ -652,6 +684,7 @@ export default {
               id_selector: this.id_selector,
               id_validacion: this.id_validacion,
               disabled: this.disabled,
+              tipo_teclado: this.tipo_teclado,
             })
             .then(function (response) {
               me.verNuevo = 0;
@@ -665,10 +698,8 @@ export default {
       }
     },
     //Metodo para eliminar una categoria
-
     eliminar() {
       let me = this;
-
       axios
         .delete("campos/" + this._id, {})
         .then(function (response) {
@@ -683,7 +714,6 @@ export default {
     mostrarmensaje() {
       this.dialogEliminar = false;
     },
-
     editItem(item) {
       this._id = item.id;
       this._id_plantilla = item.id_plantilla;
@@ -708,14 +738,17 @@ export default {
       this.id_validacion = item.id_validacion;
       this.visible = item.visible;
       this.required = item.required;
+      this.tipo_teclado = item.tipo_teclado;
       this.tiposVisible(item);
-
       this.tiposRequired(item);
       this.tiposDisabled(item);
       this.mostrarEditar();
       this.cambiarEdited();
       if (item.id_selector >= 1) {
         this.listarSelectorActivo();
+      }
+      if (item.id_validacion >= 1) {
+        this.listarValidacion();
       }
     },
     cambiarEdited() {
@@ -746,7 +779,6 @@ export default {
           console.log(error);
         });
     },
-
     changePlantilla(value) {
       let me = this;
       axios
@@ -759,7 +791,9 @@ export default {
           console.log(error);
         });
     },
-
+    selectValidacion(value) {
+      this.id_validacion = value;
+    },
     selectSelector(value) {
       this.id_selector = value;
     },

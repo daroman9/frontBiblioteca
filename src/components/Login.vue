@@ -7,12 +7,19 @@
         </v-toolbar>
         <v-card-text>
           <v-text-field v-model="email" autofocus color="accent" label="Email" required></v-text-field>
-          <v-text-field v-model="password" type="password" color="accent" label="Password" required></v-text-field>
+          <v-text-field
+            v-model="password"
+            v-on:keyup.enter="ingresar()"
+            type="password"
+            color="accent"
+            label="Password"
+            required
+          ></v-text-field>
           <v-flex class="red--text" v-if="errorM">{{ errorM }}</v-flex>
         </v-card-text>
         <v-card-actions class="px-3 pb-3">
           <v-flex text-xs-right>
-            <v-btn @click="ingresar()" color="primary">Ingresar</v-btn>
+            <v-btn @click="ingresar()" v-on:keyup.enter="ingresar()" color="primary">Ingresar</v-btn>
           </v-flex>
         </v-card-actions>
       </v-card>
@@ -26,21 +33,21 @@ export default {
     return {
       email: "",
       password: "",
-      errorM: null
+      errorM: null,
     };
   },
   methods: {
     ingresar() {
       axios
         .post("account/login", { email: this.email, password: this.password })
-        .then(respuesta => {
+        .then((respuesta) => {
           return respuesta.data;
         })
-        .then(data => {
+        .then((data) => {
           this.$store.dispatch("guardarToken", data.token);
           this.$router.push({ name: "inicio" });
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           this.errorM = null;
           if (error.response.status == 400) {
@@ -52,7 +59,7 @@ export default {
             this.errorM = "Ocurrió un error con el servidor.";
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
