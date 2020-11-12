@@ -7,10 +7,7 @@ import axios from "axios";
 import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
-axios.defaults.baseURL =
-    //"http://demonaranjo-prod.us-west-2.elasticbeanstalk.com/api";
-    //"http://caracterizacion-dev.us-west-2.elasticbeanstalk.com/api/";
-    "https://localhost:44337/api/";
+axios.defaults.baseURL = "https://localhost:44337/api/";
 
 new Vue({
     router,

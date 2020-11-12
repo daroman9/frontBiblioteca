@@ -20,15 +20,15 @@
           <v-list-group>
             <v-list-tile slot="activator">
               <v-list-tile-content>
-                <v-list-tile-title>Plantillas</v-list-tile-title>
+                <v-list-tile-title>Usuarios</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{ name: 'plantillas' }">
+            <v-list-tile :to="{ name: 'usuarios' }">
               <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Plantillas</v-list-tile-title>
+                <v-list-tile-title>Usuarios</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>
@@ -37,7 +37,7 @@
           <v-list-group>
             <v-list-tile slot="activator">
               <v-list-tile-content>
-                <v-list-tile-title>Categorias</v-list-tile-title>
+                <v-list-tile-title>Material Prestamo</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-list-tile :to="{ name: 'categorias' }">
@@ -45,7 +45,39 @@
                 <v-icon>table_chart</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Categorias</v-list-tile-title>
+                <v-list-tile-title>Material Prestamo</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+             <v-list-tile :to="{ name: 'categorias' }">
+              <v-list-tile-action>
+                <v-icon>table_chart</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Area</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+             <v-list-tile :to="{ name: 'categorias' }">
+              <v-list-tile-action>
+                <v-icon>table_chart</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Tipo de material</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+             <v-list-tile :to="{ name: 'categorias' }">
+              <v-list-tile-action>
+                <v-icon>table_chart</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Dispositivos</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+             <v-list-tile :to="{ name: 'categorias' }">
+              <v-list-tile-action>
+                <v-icon>table_chart</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Editorial</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>
@@ -54,7 +86,7 @@
           <v-list-group>
             <v-list-tile slot="activator">
               <v-list-tile-content>
-                <v-list-tile-title>Validaciones</v-list-tile-title>
+                <v-list-tile-title>Prestamos</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-list-tile :to="{ name: 'validaciones' }">
@@ -62,66 +94,7 @@
                 <v-icon>table_chart</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Validaciones</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list-group>
-        </template>
-        <template>
-          <v-list-group>
-            <v-list-tile slot="activator">
-              <v-list-tile-content>
-                <v-list-tile-title>Maestros</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ name: 'maestros' }">
-              <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Selectores</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ name: 'maestros_items' }">
-              <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Selectores Detail</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list-group>
-        </template>
-        <template>
-          <v-list-group>
-            <v-list-tile slot="activator">
-              <v-list-tile-content>
-                <v-list-tile-title>Campos</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ name: 'campos' }">
-              <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Campos</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list-group>
-        </template>
-        <template>
-          <v-list-group>
-            <v-list-tile slot="activator">
-              <v-list-tile-content>
-                <v-list-tile-title>Tablas Campos</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile :to="{ name: 'tablasCampos' }">
-              <v-list-tile-action>
-                <v-icon>table_chart</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Tablas Campos</v-list-tile-title>
+                <v-list-tile-title>Prestamos</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>
@@ -132,7 +105,7 @@
     <v-toolbar color="blue darken-3" dark app :clipped-left="$vuetify.breakpoint.mdAndUp" fixed>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <span class="hidden-sm-and-down">Sistema</span>
+        <span class="hidden-sm-and-down">Biblioteca</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn @click="salir()" icon v-if="logueado">
