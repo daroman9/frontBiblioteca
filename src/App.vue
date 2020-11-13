@@ -40,7 +40,7 @@
                 <v-list-tile-title>Material Prestamo</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{ name: 'categorias' }">
+            <v-list-tile :to="{ name: 'material_prestamo' }">
               <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
               </v-list-tile-action>
@@ -48,7 +48,7 @@
                 <v-list-tile-title>Material Prestamo</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-             <v-list-tile :to="{ name: 'categorias' }">
+             <v-list-tile :to="{ name: 'areas' }">
               <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
               </v-list-tile-action>
@@ -56,7 +56,7 @@
                 <v-list-tile-title>Area</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-             <v-list-tile :to="{ name: 'categorias' }">
+             <v-list-tile :to="{ name: 'tipo_material' }">
               <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
               </v-list-tile-action>
@@ -64,7 +64,7 @@
                 <v-list-tile-title>Tipo de material</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-             <v-list-tile :to="{ name: 'categorias' }">
+             <v-list-tile :to="{ name: 'dispositivos' }">
               <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
               </v-list-tile-action>
@@ -72,7 +72,7 @@
                 <v-list-tile-title>Dispositivos</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-             <v-list-tile :to="{ name: 'categorias' }">
+             <v-list-tile :to="{ name: 'editoriales' }">
               <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
               </v-list-tile-action>
@@ -89,7 +89,7 @@
                 <v-list-tile-title>Prestamos</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile :to="{ name: 'validaciones' }">
+            <v-list-tile :to="{ name: 'prestamos' }">
               <v-list-tile-action>
                 <v-icon>table_chart</v-icon>
               </v-list-tile-action>
@@ -127,7 +127,7 @@
       <v-layout justify-center>
         <v-flex text-xs-center>
           <v-card flat tile color="primary" class="white--text">
-            <v-card-text class="white--text pt-0">Prosecto &copy;2020</v-card-text>
+            <v-card-text class="white--text pt-0">Eliana Monsalve &copy;2020</v-card-text>
           </v-card>
         </v-flex>
       </v-layout>
