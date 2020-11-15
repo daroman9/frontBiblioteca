@@ -25,88 +25,108 @@
             <v-card-text>
               <v-container grid-list-md>
                 <v-layout wrap>
+                  <v-flex xs12 sm12 md12 lg12 xl12>
+                  <v-select
+                    label="Areas"
+                    v-bind:items="areas"
+                    item-text="nombre"
+                    autocomplete
+                    no-data-text="No hay datos con esta descripción"
+                    item-value="id"
+                    persistent-hint
+                    single-line
+                    @change="selectAreas"
+                    bottom
+                  ></v-select>
+                  </v-flex>
+                  <v-flex xs12 sm12 md12 lg12 xl12>
+                  <v-select
+                    label="Tipo de Material"
+                    v-bind:items="tipoMateriales"
+                    item-text="nombre"
+                    autocomplete
+                    no-data-text="No hay datos con esta descripción"
+                    item-value="id"
+                    persistent-hint
+                    single-line
+                    @change="selectTipoMaterial"
+                    bottom
+                  ></v-select>
+                  </v-flex>
+                  <v-flex xs12 sm12 md12 lg12 xl12>
+                  <v-select
+                    label="Dispositivos"
+                    v-bind:items="dispositivos"
+                    item-text="nombre"
+                    autocomplete
+                    no-data-text="No hay datos con esta descripción"
+                    item-value="id"
+                    persistent-hint
+                    single-line
+                    @change="selectDispositivos"
+                    bottom
+                  ></v-select>
+                  </v-flex>
+                  <v-flex xs12 sm12 md12 lg12 xl12>
+                  <v-select
+                    label="Editorial"
+                    v-bind:items="editoriales"
+                    item-text="nombre"
+                    autocomplete
+                    no-data-text="No hay datos con esta descripción"
+                    item-value="id"
+                    persistent-hint
+                    single-line
+                    @change="selectEditoriales"
+                    bottom
+                  ></v-select>
+                  </v-flex>
+                  <v-spacer></v-spacer>
                   <v-flex xs12 sm6 md12>
                     <v-text-field
-                      v-model="nombre"
-                      label="Nombres"
+                      v-model="nombreMaterial"
+                      label="Nombre Material"
                     ></v-text-field>
                   </v-flex>
                   <v-spacer></v-spacer>
                   <v-flex xs12 sm6 md12>
                     <v-text-field
-                      v-model="apellido"
-                      label="Apellidos"
+                      v-model="cantidad"
+                      label="Cantidad"
+                    ></v-text-field>
+                  </v-flex>
+                   <v-spacer></v-spacer>
+                  <v-flex xs12 sm6 md12>
+                    <v-text-field
+                      v-model="observacion"
+                      label="Observación"
+                    ></v-text-field>
+                  </v-flex>
+                   <v-spacer></v-spacer>
+                  <v-flex xs12 sm6 md12>
+                    <v-text-field
+                      v-model="iesbn"
+                      label="IESBN"
                     ></v-text-field>
                   </v-flex>
                    <v-spacer></v-spacer>
                   <v-flex xs12 sm6 md12>
                     <v-text-field
                       v-model="grado"
-                      label="Grado"
+                      label="grado"
                     ></v-text-field>
                   </v-flex>
-                   <v-spacer></v-spacer>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="nombreAcudiente"
-                      label="Nombres Acudiente"
-                    ></v-text-field>
-                  </v-flex>
-                   <v-spacer></v-spacer>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="apellidoAcudiente"
-                      label="Apellidos Acudiente"
-                    ></v-text-field>
-                  </v-flex>
-                   <v-spacer></v-spacer>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="telefonoAcudiente"
-                      label="Teléfono Acudiente"
-                    ></v-text-field>
-                  </v-flex>
-                   <v-spacer></v-spacer>
-
-            <v-flex xs12 sm6 md6 lg6 xl6>
-            <label>Autorización</label>
-            <v-select
-              v-bind:items="['Si', 'No']"
-              v-model="autorizacion"
-              no-data-text="No hay datos con esta descripción"
-              item-value="autorizacion"
-              persistent-hint
-              single-line
-              @change="changeAutorizacion"
-              bottom
-            ></v-select>
-          </v-flex>
-            <v-flex xs12 sm6 md6 lg6 xl6>
-            <label>Activo</label>
-            <v-select
-              v-bind:items="['Si', 'No']"
-              v-model="activo"
-              no-data-text="No hay datos con esta descripción"
-              item-value="activo"
-              persistent-hint
-              single-line
-              @change="changeActivo"
-              bottom
-            ></v-select>
-          </v-flex>
-                
-                  <v-flex xs12 sm6 md12 v-show="valida">
-                    <div
-                      class="red--text"
-                      v-for="v in validaMensaje"
-                      :key="v"
-                      v-text="v"
-                    ></div>
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </v-card-text>
-
+            <v-flex xs12 sm6 md12 v-show="valida">
+            <div
+            class="red--text"
+            v-for="v in validaMensaje"
+            :key="v"
+            v-text="v"
+            ></div>
+            </v-flex>
+            </v-layout>
+          </v-container>
+          </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
@@ -197,7 +217,11 @@ export default {
       autorizacion:"",
       activo:"",
       valida: 0,
+      tipoMaterialSeleccionado:0,
+      areaSeleccionada:0,
       errors: [],
+      tipoMateriales:[],
+      areas: [],
       validaMensaje: [],
       usuarios: [],
       errorM: null,
@@ -237,6 +261,8 @@ export default {
   },
   created() {
     this.listar();
+    this.listarAreas();
+    this.listarTipoMateriales();
   },
   methods: {
     listar() {
@@ -251,6 +277,29 @@ export default {
           console.log(error);
         });
     },
+      listarAreas() {
+      let me = this;
+      axios
+        .get("Areas")
+        .then(function (response) {
+          me.areas = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    listarTipoMateriales() {
+      let me = this;
+      axios
+        .get("Tipo_Materiales")
+        .then(function (response) {
+          me.tipoMateriales = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    
     limpiar() {
       (this._id = ""),
         (this.nombre = ""),
@@ -261,6 +310,7 @@ export default {
         (this.telefonoAcudiente = ""),
         (this.autorizacion = ""),
         (this.activo = ""),
+        (this.tipoMaterialSeleccionado=0),
         (this.validaMensaje = []),
         (this. errors= []),
         (this.editedIndex = -1);
@@ -422,19 +472,12 @@ export default {
     closeEliminar() {
       this.dialogEliminar = false;
     },
-    changeAutorizacion(value) {
-     
-        this.autorizacion = value;
-        console.log(this.autorizacion);
-    
+    selectAreas(value){
+      this.areaSeleccionada= value;
     },
-    changeActivo(value) {
-    
-        this.activo = value;
-        console.log(this.activo);
-    
+      selectTipoMaterial(value) {
+      this.tipoMaterialSeleccionado = value;
     },
-
   },
 };
 </script>

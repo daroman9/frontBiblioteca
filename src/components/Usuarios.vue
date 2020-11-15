@@ -94,17 +94,16 @@
               bottom
             ></v-select>
           </v-flex>
-                
-                  <v-flex xs12 sm6 md12 v-show="valida">
-                    <div
-                      class="red--text"
-                      v-for="v in validaMensaje"
-                      :key="v"
-                      v-text="v"
-                    ></div>
-                  </v-flex>
-                </v-layout>
-              </v-container>
+            <v-flex xs12 sm6 md12 v-show="valida">
+              <div
+              class="red--text"
+              v-for="v in validaMensaje"
+              :key="v"
+              v-text="v"
+              ></div>
+              </v-flex>
+              </v-layout>
+            </v-container>
             </v-card-text>
 
             <v-card-actions>
@@ -293,7 +292,7 @@ export default {
         return false;
       }
       if (this.activo === "") {
-        this.errors.push("Debe especificar si el alumnos esta activo");
+        this.errors.push("Debe especificar si el alumno esta activo");
         return false;
       }
       return true;

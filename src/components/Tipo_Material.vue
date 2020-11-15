@@ -2,7 +2,7 @@
   <v-layout align-start>
     <v-flex>
       <v-toolbar flat color="white">
-        <v-toolbar-title>Usuarios</v-toolbar-title>
+        <v-toolbar-title>Tipo de Material</v-toolbar-title>
         <v-divider class="mx-2" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-text-field
@@ -16,7 +16,7 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Usuario</v-btn>
+            <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Tipo de Material</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -28,85 +28,20 @@
                   <v-flex xs12 sm6 md12>
                     <v-text-field
                       v-model="nombre"
-                      label="Nombres"
+                      label="Nombre"
                     ></v-text-field>
                   </v-flex>
-                  <v-spacer></v-spacer>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="apellido"
-                      label="Apellidos"
-                    ></v-text-field>
-                  </v-flex>
-                   <v-spacer></v-spacer>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="grado"
-                      label="Grado"
-                    ></v-text-field>
-                  </v-flex>
-                   <v-spacer></v-spacer>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="nombreAcudiente"
-                      label="Nombres Acudiente"
-                    ></v-text-field>
-                  </v-flex>
-                   <v-spacer></v-spacer>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="apellidoAcudiente"
-                      label="Apellidos Acudiente"
-                    ></v-text-field>
-                  </v-flex>
-                   <v-spacer></v-spacer>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="telefonoAcudiente"
-                      label="Teléfono Acudiente"
-                    ></v-text-field>
-                  </v-flex>
-                   <v-spacer></v-spacer>
-
-            <v-flex xs12 sm6 md6 lg6 xl6>
-            <label>Autorización</label>
-            <v-select
-              v-bind:items="['Si', 'No']"
-              v-model="autorizacion"
-              no-data-text="No hay datos con esta descripción"
-              item-value="autorizacion"
-              persistent-hint
-              single-line
-              @change="changeAutorizacion"
-              bottom
-            ></v-select>
-          </v-flex>
-            <v-flex xs12 sm6 md6 lg6 xl6>
-            <label>Activo</label>
-            <v-select
-              v-bind:items="['Si', 'No']"
-              v-model="activo"
-              no-data-text="No hay datos con esta descripción"
-              item-value="activo"
-              persistent-hint
-              single-line
-              @change="changeActivo"
-              bottom
-            ></v-select>
-          </v-flex>
-                
-                  <v-flex xs12 sm6 md12 v-show="valida">
-                    <div
-                      class="red--text"
-                      v-for="v in validaMensaje"
-                      :key="v"
-                      v-text="v"
-                    ></div>
-                  </v-flex>
-                </v-layout>
-              </v-container>
+            <v-flex xs12 sm6 md12 v-show="valida">
+              <div
+              class="red--text"
+              v-for="v in validaMensaje"
+              :key="v"
+              v-text="v"
+              ></div>
+              </v-flex>
+              </v-layout>
+            </v-container>
             </v-card-text>
-
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
@@ -118,14 +53,14 @@
         <v-dialog v-model="dialogEliminar" max-width="500px">
           <v-card>
             <v-card-title>
-              <span class="headline">Eliminar Usuario</span>
+              <span class="headline">Eliminar Tipo de Material</span>
             </v-card-title>
             <v-card-text>
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md12>
                     <v-card-text
-                      >¿Estas seguro que deseas eliminar el usuario?</v-card-text
+                      >¿Estas seguro que deseas eliminar el tipo de material?</v-card-text
                     >
                   </v-flex>
                   <v-spacer></v-spacer>
@@ -149,20 +84,13 @@
       </v-toolbar>
       <v-data-table
         :headers="headers"
-        :items="usuarios"
+        :items="tipoMateriales"
         :search="search"
         class="elevation-1"
       >
         <template v-slot:items="props">
           <td>{{ props.item.id }}</td>
           <td>{{ props.item.nombre }}</td>
-          <td>{{ props.item.apellido }}</td>
-          <td>{{ props.item.grado }}</td>
-          <td>{{ props.item.nombreAcudiente }}</td>
-          <td>{{ props.item.apellidoAcudiente }}</td>
-          <td>{{ props.item.telefonoAcudiente }}</td>
-          <td>{{ props.item.autorizacion }}</td>
-          <td>{{ props.item.activo }}</td>
           <td class="justify-center layout px-0">
             <v-icon small class="mr-2" @click="editItem(props.item)"
               >edit</v-icon
@@ -189,28 +117,14 @@ export default {
       search: "",
       _id: "",
       nombre: "",
-      apellido: "",
-      grado: "",
-      nombreAcudiente:"",
-      apellidoAcudiente:"",
-      telefonoAcudiente:"",
-      autorizacion:"",
-      activo:"",
       valida: 0,
       errors: [],
       validaMensaje: [],
-      usuarios: [],
+      tipoMateriales: [],
       errorM: null,
       headers: [
         { text: "Id", value: "id", sortable: true },
-        { text: "Nombres", value: "nombre", sortable: true },
-        { text: "Apellidos", value: "apellido" },
-        { text: "Grado", value: "grado" },
-        { text: "Nombres Acudiente", value: "nombreAcudiente", sortable: false },
-        { text: "Apellidos Acudiente", value: "apellidoAcudiente", sortable: false },
-        { text: "Teléfono Acudiente", value: "telefonoAcudiente", sortable: false },
-        { text: "Autorización", value: "autorizacion", sortable: false },
-        { text: "Activo", value: "activo", sortable: false },
+        { text: "Nombre", value: "nombre", sortable: true }
       ],
       deleteItem: -1,
       editedIndex: -1,
@@ -224,7 +138,7 @@ export default {
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Nuevo Usuario" : "Editar Usuario";
+      return this.editedIndex === -1 ? "Nuevo Tipo de Material" : "Editar Tipo de Material";
     },
   },
   watch: {
@@ -242,9 +156,9 @@ export default {
     listar() {
       let me = this;
       axios
-        .get("Detalle_Usuarios")
+        .get("Tipo_Materiales")
         .then(function(response) {
-          me.usuarios = response.data;
+          me.tipoMateriales = response.data;
         }
     )
         .catch(function(error) {
@@ -254,13 +168,6 @@ export default {
     limpiar() {
       (this._id = ""),
         (this.nombre = ""),
-        (this.apellido = ""),
-        (this.grado = ""),
-        (this.nombreAcudiente = ""),
-        (this.apellidoAcudiente = ""),
-        (this.telefonoAcudiente = ""),
-        (this.autorizacion = ""),
-        (this.activo = ""),
         (this.validaMensaje = []),
         (this. errors= []),
         (this.editedIndex = -1);
@@ -272,60 +179,13 @@ export default {
         this.errors.push("Debe agregar un nombre");
         return false;
       }
-      if (this.apellido === "") {
-        this.errors.push("Debe agregar un apellido");
-        return false;
-      }
-      if (this.nombreAcudiente === "") {
-        this.errors.push("Debe agregar un nombre de acudiente");
-        return false;
-      }
-      if (this.apellidoAcudiente === "") {
-        this.errors.push("Debe agregar un apellido para el acudiente");
-        return false;
-      }
-      if (this.telefonoAcudiente === "") {
-        this.errors.push("Debe agregar un teléfono para el acudiente");
-        return false;
-      }
-      if (this.autorizacion === "") {
-        this.errors.push("Debe especificar la autorización");
-        return false;
-      }
-      if (this.activo === "") {
-        this.errors.push("Debe especificar si el alumnos esta activo");
-        return false;
-      }
+     
       return true;
     },
     validarEditar() {
       this.errors = [];
        if (this.nombre === "") {
         this.errors.push("Debe agregar un nombre");
-        return false;
-      }
-      if (this.apellido === "") {
-        this.errors.push("Debe agregar un apellido");
-        return false;
-      }
-      if (this.nombreAcudiente === "") {
-        this.errors.push("Debe agregar un nombre de acudiente");
-        return false;
-      }
-      if (this.apellidoAcudiente === "") {
-        this.errors.push("Debe agregar un apellido para el acudiente");
-        return false;
-      }
-      if (this.telefonoAcudiente === "") {
-        this.errors.push("Debe agregar un teléfono para el acudiente");
-        return false;
-      }
-      if (this.autorizacion === "") {
-        this.errors.push("Debe especificar la autorización");
-        return false;
-      }
-      if (this.activo === "") {
-        this.errors.push("Debe especificar si el alumnos esta activo");
         return false;
       }
       return true;
@@ -335,18 +195,12 @@ export default {
      
       if (this.editedIndex > -1) {
         //Codigo para editar un usuario
-         if (this.validarGuardado()) {
+         if (this.validarEditar()) {
      
         axios
-          .put("Detalle_Usuarios/" + this._id, {
+          .put("Tipo_Materiales/" + this._id, {
             id: this._id,
-            nombre: this.nombre,
-            apellido: this.apellido,
-            nombreAcudiente: this.nombreAcudiente,
-            apellidoAcudiente: this.apellidoAcudiente,
-            telefonoAcudiente: this.telefonoAcudiente,
-            autorizacion: this.autorizacion,
-            activo: this.activo
+            nombre: this.nombre
           })
           .then(function(response) {
             me.limpiar();
@@ -358,17 +212,11 @@ export default {
           });
         }
       } else {
-        if(this.validarEditar()){
+        if(this.validarGuardado()){
         //Codigo para guardar un nuevo usuario
         axios
-          .post("Detalle_Usuarios", {
-            nombre: this.nombre,
-            apellido: this.apellido,
-            nombreAcudiente: this.nombreAcudiente,
-            apellidoAcudiente: this.apellidoAcudiente,
-            telefonoAcudiente: this.telefonoAcudiente,
-            autorizacion: this.autorizacion,
-            activo: this.activo
+          .post("Tipo_Materiales", {
+            nombre: this.nombre
           })
           .then(function(response) {
             me.limpiar();
@@ -384,7 +232,7 @@ export default {
     eliminar() {
       let me = this;
       axios
-        .delete("Detalle_Usuarios/" + this._id, {})
+        .delete("Tipo_Materiales/" + this._id, {})
         .then(function(response) {
           me.limpiar();
           me.closeEliminar();
@@ -401,13 +249,6 @@ export default {
     editItem(item) {
       this._id = item.id;
       this.nombre = item.nombre;
-      this.apellido = item.apellido;
-      this.grado= item.grado;
-      this.nombreAcudiente = item.nombreAcudiente;
-      this.apellidoAcudiente= item.apellidoAcudiente;
-      this.telefonoAcudiente= item.telefonoAcudiente;
-      this.autorizacion= item.autorizacion;
-      this.activo = item.activo;
       this.dialog = true;
       this.editedIndex = 1;
     },
@@ -421,20 +262,7 @@ export default {
     },
     closeEliminar() {
       this.dialogEliminar = false;
-    },
-    changeAutorizacion(value) {
-     
-        this.autorizacion = value;
-        console.log(this.autorizacion);
-    
-    },
-    changeActivo(value) {
-    
-        this.activo = value;
-        console.log(this.activo);
-    
-    },
-
+    }
   },
 };
 </script>

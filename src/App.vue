@@ -53,7 +53,7 @@
                 <v-icon>table_chart</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Area</v-list-tile-title>
+                <v-list-tile-title>Areas</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
              <v-list-tile :to="{ name: 'tipo_material' }">
@@ -77,7 +77,7 @@
                 <v-icon>table_chart</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title>Editorial</v-list-tile-title>
+                <v-list-tile-title>Editoriales</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>

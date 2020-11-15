@@ -28,7 +28,7 @@
                   <v-flex xs12 sm6 md12>
                     <v-text-field
                       v-model="nombre"
-                      label="nombre"
+                      label="Nombre"
                     ></v-text-field>
                   </v-flex>            
                   <v-flex xs12 sm6 md12 v-show="valida">
@@ -194,7 +194,7 @@ export default {
      
       if (this.editedIndex > -1) {
         //Codigo para editar un usuario
-         if (this.validarGuardado()) {
+         if (this.validarEditar()) {
      
         axios
           .put("Areas/" + this._id, {
@@ -211,7 +211,7 @@ export default {
           });
         }
       } else {
-        if(this.validarEditar()){
+        if(this.validarGuardado()){
         //Codigo para guardar un nuevo usuario
         axios
           .post("Areas", {
