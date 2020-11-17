@@ -94,17 +94,16 @@
               bottom
             ></v-select>
           </v-flex>
-                
-                  <v-flex xs12 sm6 md12 v-show="valida">
-                    <div
-                      class="red--text"
-                      v-for="v in validaMensaje"
-                      :key="v"
-                      v-text="v"
-                    ></div>
-                  </v-flex>
-                </v-layout>
-              </v-container>
+            <v-flex xs12 sm6 md12 v-show="valida">
+              <div
+              class="red--text"
+              v-for="v in validaMensaje"
+              :key="v"
+              v-text="v"
+              ></div>
+              </v-flex>
+              </v-layout>
+            </v-container>
             </v-card-text>
 
             <v-card-actions>
@@ -118,14 +117,14 @@
         <v-dialog v-model="dialogEliminar" max-width="500px">
           <v-card>
             <v-card-title>
-              <span class="headline">Eliminar Prestamo</span>
+              <span class="headline">Eliminar Usuario</span>
             </v-card-title>
             <v-card-text>
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md12>
                     <v-card-text
-                      >¿Estas seguro que deseas eliminar el prestamo?</v-card-text
+                      >¿Estas seguro que deseas eliminar el usuario?</v-card-text
                     >
                   </v-flex>
                   <v-spacer></v-spacer>
@@ -204,8 +203,8 @@ export default {
       headers: [
         { text: "Id", value: "id", sortable: true },
         { text: "Nombres", value: "nombre", sortable: true },
-        { text: "Apellidos", value: "apellido" },
-        { text: "Grado", value: "grado" },
+        { text: "Apellidos", value: "apellido", sortable: true },
+        { text: "Grado", value: "grado", sortable: true },
         { text: "Nombres Acudiente", value: "nombreAcudiente", sortable: false },
         { text: "Apellidos Acudiente", value: "apellidoAcudiente", sortable: false },
         { text: "Teléfono Acudiente", value: "telefonoAcudiente", sortable: false },
@@ -224,7 +223,7 @@ export default {
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Nuevo Prestamo" : "Editar Prestamo";
+      return this.editedIndex === -1 ? "Nuevo Usuario" : "Editar Usuario";
     },
   },
   watch: {
@@ -242,9 +241,10 @@ export default {
     listar() {
       let me = this;
       axios
-        .get("Material_Prestamos")
+        .get("DatosPrestamo")
         .then(function(response) {
           me.usuarios = response.data;
+          console.log(me.usuarios)
         }
     )
         .catch(function(error) {
@@ -293,7 +293,7 @@ export default {
         return false;
       }
       if (this.activo === "") {
-        this.errors.push("Debe especificar si el alumnos esta activo");
+        this.errors.push("Debe especificar si el alumno esta activo");
         return false;
       }
       return true;
@@ -342,6 +342,7 @@ export default {
             id: this._id,
             nombre: this.nombre,
             apellido: this.apellido,
+            grado: this.grado,
             nombreAcudiente: this.nombreAcudiente,
             apellidoAcudiente: this.apellidoAcudiente,
             telefonoAcudiente: this.telefonoAcudiente,
@@ -364,6 +365,7 @@ export default {
           .post("Detalle_Usuarios", {
             nombre: this.nombre,
             apellido: this.apellido,
+            grado: this.grado,
             nombreAcudiente: this.nombreAcudiente,
             apellidoAcudiente: this.apellidoAcudiente,
             telefonoAcudiente: this.telefonoAcudiente,
