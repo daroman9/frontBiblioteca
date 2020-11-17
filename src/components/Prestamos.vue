@@ -27,73 +27,38 @@
                 <v-layout wrap>
                   <v-flex xs12 sm6 md12>
                     <v-text-field
-                      v-model="nombre"
-                      label="Nombres"
+                      v-model="nombreMaterial"
+                      label="Nombre Material"
                     ></v-text-field>
                   </v-flex>
                   <v-spacer></v-spacer>
                   <v-flex xs12 sm6 md12>
                     <v-text-field
-                      v-model="apellido"
-                      label="Apellidos"
+                      v-model="nombreUsuario"
+                      label="Nombre Usuario"
                     ></v-text-field>
                   </v-flex>
                    <v-spacer></v-spacer>
                   <v-flex xs12 sm6 md12>
                     <v-text-field
-                      v-model="grado"
-                      label="Grado"
+                      v-model="apellidoUsuario"
+                      label="Apellido Usuario"
                     ></v-text-field>
                   </v-flex>
                    <v-spacer></v-spacer>
                   <v-flex xs12 sm6 md12>
                     <v-text-field
-                      v-model="nombreAcudiente"
-                      label="Nombres Acudiente"
+                      v-model="FechaInicial"
+                      label="Fecha Inicial"
                     ></v-text-field>
                   </v-flex>
                    <v-spacer></v-spacer>
                   <v-flex xs12 sm6 md12>
                     <v-text-field
-                      v-model="apellidoAcudiente"
-                      label="Apellidos Acudiente"
+                      v-model="fechaFinal"
+                      label="Fecha Final"
                     ></v-text-field>
                   </v-flex>
-                   <v-spacer></v-spacer>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="telefonoAcudiente"
-                      label="Teléfono Acudiente"
-                    ></v-text-field>
-                  </v-flex>
-                   <v-spacer></v-spacer>
-
-            <v-flex xs12 sm6 md6 lg6 xl6>
-            <label>Autorización</label>
-            <v-select
-              v-bind:items="['Si', 'No']"
-              v-model="autorizacion"
-              no-data-text="No hay datos con esta descripción"
-              item-value="autorizacion"
-              persistent-hint
-              single-line
-              @change="changeAutorizacion"
-              bottom
-            ></v-select>
-          </v-flex>
-            <v-flex xs12 sm6 md6 lg6 xl6>
-            <label>Activo</label>
-            <v-select
-              v-bind:items="['Si', 'No']"
-              v-model="activo"
-              no-data-text="No hay datos con esta descripción"
-              item-value="activo"
-              persistent-hint
-              single-line
-              @change="changeActivo"
-              bottom
-            ></v-select>
-          </v-flex>
             <v-flex xs12 sm6 md12 v-show="valida">
               <div
               class="red--text"
@@ -117,14 +82,14 @@
         <v-dialog v-model="dialogEliminar" max-width="500px">
           <v-card>
             <v-card-title>
-              <span class="headline">Eliminar Usuario</span>
+              <span class="headline">Eliminar Prestamo</span>
             </v-card-title>
             <v-card-text>
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md12>
                     <v-card-text
-                      >¿Estas seguro que deseas eliminar el usuario?</v-card-text
+                      >¿Estas seguro que deseas eliminar el prestamo?</v-card-text
                     >
                   </v-flex>
                   <v-spacer></v-spacer>
@@ -148,20 +113,17 @@
       </v-toolbar>
       <v-data-table
         :headers="headers"
-        :items="usuarios"
+        :items="prestamos"
         :search="search"
         class="elevation-1"
       >
         <template v-slot:items="props">
           <td>{{ props.item.id }}</td>
-          <td>{{ props.item.nombre }}</td>
-          <td>{{ props.item.apellido }}</td>
-          <td>{{ props.item.grado }}</td>
-          <td>{{ props.item.nombreAcudiente }}</td>
-          <td>{{ props.item.apellidoAcudiente }}</td>
-          <td>{{ props.item.telefonoAcudiente }}</td>
-          <td>{{ props.item.autorizacion }}</td>
-          <td>{{ props.item.activo }}</td>
+          <td>{{ props.item.nombreMaterial }}</td>
+          <td>{{ props.item.nombreUsuario }}</td>
+          <td>{{ props.item.apellidoUsuario }}</td>
+          <td>{{ props.item.fechaInicial }}</td>
+          <td>{{ props.item.fechaFinal }}</td>
           <td class="justify-center layout px-0">
             <v-icon small class="mr-2" @click="editItem(props.item)"
               >edit</v-icon
@@ -187,29 +149,25 @@ export default {
       dialogEliminar: false,
       search: "",
       _id: "",
-      nombre: "",
-      apellido: "",
-      grado: "",
-      nombreAcudiente:"",
-      apellidoAcudiente:"",
-      telefonoAcudiente:"",
-      autorizacion:"",
-      activo:"",
+      idMaterial:"",
+      nombreMaterial: "",
+      idUsuario: "",
+      nombreUsuario: "",
+      apellidoUsuario:"",
+      fechaInicial:"",
+      fechaFinal:"",
       valida: 0,
       errors: [],
       validaMensaje: [],
-      usuarios: [],
+      prestamos: [],
       errorM: null,
       headers: [
         { text: "Id", value: "id", sortable: true },
-        { text: "Nombres", value: "nombre", sortable: true },
-        { text: "Apellidos", value: "apellido", sortable: true },
-        { text: "Grado", value: "grado", sortable: true },
-        { text: "Nombres Acudiente", value: "nombreAcudiente", sortable: false },
-        { text: "Apellidos Acudiente", value: "apellidoAcudiente", sortable: false },
-        { text: "Teléfono Acudiente", value: "telefonoAcudiente", sortable: false },
-        { text: "Autorización", value: "autorizacion", sortable: false },
-        { text: "Activo", value: "activo", sortable: false },
+        { text: "Nombre Material", value: "nombreMaterial", sortable: true },
+        { text: "Nombre Usuario", value: "nombreUsuario", sortable: true },
+        { text: "Apellido Usuario", value: "apellidoUsuario", sortable: true },
+        { text: "Fecha Inicial", value: "fechaInicial", sortable: false },
+        { text: "Fecha Final", value: "fechaFinal", sortable: false },
       ],
       deleteItem: -1,
       editedIndex: -1,
@@ -223,7 +181,7 @@ export default {
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Nuevo Usuario" : "Editar Usuario";
+      return this.editedIndex === -1 ? "Nuevo Prestamo" : "Editar Prestamo";
     },
   },
   watch: {
@@ -243,8 +201,8 @@ export default {
       axios
         .get("DatosPrestamo")
         .then(function(response) {
-          me.usuarios = response.data;
-          console.log(me.usuarios)
+          me.prestamos = response.data;
+          console.log(me.prestamos)
         }
     )
         .catch(function(error) {
@@ -253,17 +211,16 @@ export default {
     },
     limpiar() {
       (this._id = ""),
-        (this.nombre = ""),
-        (this.apellido = ""),
-        (this.grado = ""),
-        (this.nombreAcudiente = ""),
-        (this.apellidoAcudiente = ""),
-        (this.telefonoAcudiente = ""),
-        (this.autorizacion = ""),
-        (this.activo = ""),
-        (this.validaMensaje = []),
-        (this. errors= []),
-        (this.editedIndex = -1);
+      (this.idMaterial = ""),
+      (this.nombreMaterial = ""),
+      (this.idUsuario = ""),
+      (this.nombreUsuario = ""),
+      (this.apellidoUsuario = ""),
+      (this.fechaInicial = ""),
+      (this.fechaFinal = ""),
+      (this.validaMensaje = []),
+      (this. errors= []),
+      (this.editedIndex = -1);
     },
      //Metodo de validación para
     validarGuardado() {
@@ -402,14 +359,11 @@ export default {
 
     editItem(item) {
       this._id = item.id;
-      this.nombre = item.nombre;
-      this.apellido = item.apellido;
-      this.grado= item.grado;
-      this.nombreAcudiente = item.nombreAcudiente;
-      this.apellidoAcudiente= item.apellidoAcudiente;
-      this.telefonoAcudiente= item.telefonoAcudiente;
-      this.autorizacion= item.autorizacion;
-      this.activo = item.activo;
+      this.nombreMaterial = item.nombreMaterial;
+      this.nombreUsuario = item.nombreUsuario;
+      this.apellidoUsuario= item.apellidoUsuario;
+      this.fechaInicial = item.fechaInicial;
+      this.fechaFinal= item.fechaFinal;
       this.dialog = true;
       this.editedIndex = 1;
     },
