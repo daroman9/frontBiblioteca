@@ -203,8 +203,8 @@ export default {
       headers: [
         { text: "Id", value: "id", sortable: true },
         { text: "Nombres", value: "nombre", sortable: true },
-        { text: "Apellidos", value: "apellido" },
-        { text: "Grado", value: "grado" },
+        { text: "Apellidos", value: "apellido", sortable: true },
+        { text: "Grado", value: "grado", sortable: true },
         { text: "Nombres Acudiente", value: "nombreAcudiente", sortable: false },
         { text: "Apellidos Acudiente", value: "apellidoAcudiente", sortable: false },
         { text: "Teléfono Acudiente", value: "telefonoAcudiente", sortable: false },
@@ -341,6 +341,7 @@ export default {
             id: this._id,
             nombre: this.nombre,
             apellido: this.apellido,
+            grado: this.grado,
             nombreAcudiente: this.nombreAcudiente,
             apellidoAcudiente: this.apellidoAcudiente,
             telefonoAcudiente: this.telefonoAcudiente,
@@ -363,6 +364,7 @@ export default {
           .post("Detalle_Usuarios", {
             nombre: this.nombre,
             apellido: this.apellido,
+            grado: this.grado,
             nombreAcudiente: this.nombreAcudiente,
             apellidoAcudiente: this.apellidoAcudiente,
             telefonoAcudiente: this.telefonoAcudiente,

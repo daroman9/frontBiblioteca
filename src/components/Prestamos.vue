@@ -2,7 +2,7 @@
   <v-layout align-start>
     <v-flex>
       <v-toolbar flat color="white">
-        <v-toolbar-title>Usuarios</v-toolbar-title>
+        <v-toolbar-title>Prestamos</v-toolbar-title>
         <v-divider class="mx-2" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-text-field
@@ -16,7 +16,7 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Usuario</v-btn>
+            <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Prestamo</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -118,14 +118,14 @@
         <v-dialog v-model="dialogEliminar" max-width="500px">
           <v-card>
             <v-card-title>
-              <span class="headline">Eliminar Usuario</span>
+              <span class="headline">Eliminar Prestamo</span>
             </v-card-title>
             <v-card-text>
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md12>
                     <v-card-text
-                      >¿Estas seguro que deseas eliminar el usuario?</v-card-text
+                      >¿Estas seguro que deseas eliminar el prestamo?</v-card-text
                     >
                   </v-flex>
                   <v-spacer></v-spacer>
@@ -224,7 +224,7 @@ export default {
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Nuevo Usuario" : "Editar Usuario";
+      return this.editedIndex === -1 ? "Nuevo Prestamo" : "Editar Prestamo";
     },
   },
   watch: {
@@ -242,7 +242,7 @@ export default {
     listar() {
       let me = this;
       axios
-        .get("Detalle_Usuarios")
+        .get("Material_Prestamos")
         .then(function(response) {
           me.usuarios = response.data;
         }

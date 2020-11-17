@@ -2,7 +2,7 @@
   <v-layout align-start>
     <v-flex>
       <v-toolbar flat color="white">
-        <v-toolbar-title>Usuarios</v-toolbar-title>
+        <v-toolbar-title>Material de Prestamo</v-toolbar-title>
         <v-divider class="mx-2" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-text-field
@@ -16,7 +16,7 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Usuario</v-btn>
+            <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Material de Prestamo</v-btn>
           </template>
           <v-card>
             <v-card-title>
@@ -26,8 +26,9 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm12 md12 lg12 xl12>
+                  <label>Areas</label>
                   <v-select
-                    label="Areas"
+                   :label="`${nombreArea}`"
                     v-bind:items="areas"
                     item-text="nombre"
                     autocomplete
@@ -35,13 +36,14 @@
                     item-value="id"
                     persistent-hint
                     single-line
-                    @change="selectAreas"
+                    @change="selectArea"
                     bottom
                   ></v-select>
                   </v-flex>
                   <v-flex xs12 sm12 md12 lg12 xl12>
+                  <label>Tipo de Materiales</label>
                   <v-select
-                    label="Tipo de Material"
+                    :label="`${nombreTipoMaterial}`"
                     v-bind:items="tipoMateriales"
                     item-text="nombre"
                     autocomplete
@@ -54,8 +56,9 @@
                   ></v-select>
                   </v-flex>
                   <v-flex xs12 sm12 md12 lg12 xl12>
+                  <label>Dispositivos</label>
                   <v-select
-                    label="Dispositivos"
+                    :label="`${nombreDispositivo}`"
                     v-bind:items="dispositivos"
                     item-text="nombre"
                     autocomplete
@@ -63,13 +66,14 @@
                     item-value="id"
                     persistent-hint
                     single-line
-                    @change="selectDispositivos"
+                    @change="selectDispositivo"
                     bottom
                   ></v-select>
                   </v-flex>
                   <v-flex xs12 sm12 md12 lg12 xl12>
+                  <label>Editoriales</label>
                   <v-select
-                    label="Editorial"
+                    :label="`${nombreEditorial}`"
                     v-bind:items="editoriales"
                     item-text="nombre"
                     autocomplete
@@ -77,7 +81,7 @@
                     item-value="id"
                     persistent-hint
                     single-line
-                    @change="selectEditoriales"
+                    @change="selectEditorial"
                     bottom
                   ></v-select>
                   </v-flex>
@@ -106,14 +110,14 @@
                   <v-flex xs12 sm6 md12>
                     <v-text-field
                       v-model="iesbn"
-                      label="IESBN"
+                      label="Iesbn"
                     ></v-text-field>
                   </v-flex>
                    <v-spacer></v-spacer>
                   <v-flex xs12 sm6 md12>
                     <v-text-field
                       v-model="grado"
-                      label="grado"
+                      label="Grado"
                     ></v-text-field>
                   </v-flex>
             <v-flex xs12 sm6 md12 v-show="valida">
@@ -138,14 +142,14 @@
         <v-dialog v-model="dialogEliminar" max-width="500px">
           <v-card>
             <v-card-title>
-              <span class="headline">Eliminar Usuario</span>
+              <span class="headline">Eliminar Material de Prestamo</span>
             </v-card-title>
             <v-card-text>
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md12>
                     <v-card-text
-                      >¿Estas seguro que deseas eliminar el usuario?</v-card-text
+                      >¿Estas seguro que deseas eliminar el material de prestamo?</v-card-text
                     >
                   </v-flex>
                   <v-spacer></v-spacer>
@@ -169,20 +173,17 @@
       </v-toolbar>
       <v-data-table
         :headers="headers"
-        :items="usuarios"
+        :items="materialesPrestamo"
         :search="search"
         class="elevation-1"
       >
         <template v-slot:items="props">
           <td>{{ props.item.id }}</td>
-          <td>{{ props.item.nombre }}</td>
-          <td>{{ props.item.apellido }}</td>
+          <td>{{ props.item.nombreMaterial }}</td>
+          <td>{{ props.item.cantidad }}</td>
+          <td>{{ props.item.observacion }}</td>
+          <td>{{ props.item.iesbn }}</td>
           <td>{{ props.item.grado }}</td>
-          <td>{{ props.item.nombreAcudiente }}</td>
-          <td>{{ props.item.apellidoAcudiente }}</td>
-          <td>{{ props.item.telefonoAcudiente }}</td>
-          <td>{{ props.item.autorizacion }}</td>
-          <td>{{ props.item.activo }}</td>
           <td class="justify-center layout px-0">
             <v-icon small class="mr-2" @click="editItem(props.item)"
               >edit</v-icon
@@ -208,33 +209,35 @@ export default {
       dialogEliminar: false,
       search: "",
       _id: "",
-      nombre: "",
-      apellido: "",
-      grado: "",
-      nombreAcudiente:"",
-      apellidoAcudiente:"",
-      telefonoAcudiente:"",
-      autorizacion:"",
-      activo:"",
-      valida: 0,
-      tipoMaterialSeleccionado:0,
       areaSeleccionada:0,
+      tipoMaterialSeleccionado:0,
+      dispositivoSeleccionado:0,
+      editorialSeleccionada:0,
+      nombreMaterial: "",
+      cantidad:"",
+      observacion: "",
+      iesbn:"",
+      grado:"",
+      nombreTipoMaterial:"",
+      nombreArea:"",
+      nombreDispositivo:"",
+      nombreEditorial:"",
+      valida: 0,
       errors: [],
       tipoMateriales:[],
       areas: [],
+      dispositivos:[],
+      editoriales:[],
       validaMensaje: [],
-      usuarios: [],
+      materialesPrestamo: [],
       errorM: null,
       headers: [
         { text: "Id", value: "id", sortable: true },
-        { text: "Nombres", value: "nombre", sortable: true },
-        { text: "Apellidos", value: "apellido" },
-        { text: "Grado", value: "grado" },
-        { text: "Nombres Acudiente", value: "nombreAcudiente", sortable: false },
-        { text: "Apellidos Acudiente", value: "apellidoAcudiente", sortable: false },
-        { text: "Teléfono Acudiente", value: "telefonoAcudiente", sortable: false },
-        { text: "Autorización", value: "autorizacion", sortable: false },
-        { text: "Activo", value: "activo", sortable: false },
+        { text: "Nombre", value: "nombreMaterial", sortable: true },
+        { text: "Cantidad", value: "cantidad", sortable: true },
+        { text: "Observación", value: "observacion", sortable: true },
+        { text: "Iesbn", value: "iesbn", sortable: true },
+        { text: "Grado", value: "grado", sortable: true }
       ],
       deleteItem: -1,
       editedIndex: -1,
@@ -248,7 +251,7 @@ export default {
   },
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "Nuevo Usuario" : "Editar Usuario";
+      return this.editedIndex === -1 ? "Nuevo Material de Prestamo" : "Editar Material de Prestamo";
     },
   },
   watch: {
@@ -263,14 +266,16 @@ export default {
     this.listar();
     this.listarAreas();
     this.listarTipoMateriales();
+    this.listarDispositivos();
+    this.listarEditoriales();
   },
   methods: {
     listar() {
       let me = this;
       axios
-        .get("Detalle_Usuarios")
+        .get("Material_Prestamos")
         .then(function(response) {
-          me.usuarios = response.data;
+          me.materialesPrestamo = response.data;
         }
     )
         .catch(function(error) {
@@ -299,18 +304,90 @@ export default {
           console.log(error);
         });
     },
+        listarDispositivos() {
+      let me = this;
+      axios
+        .get("Dispositivos")
+        .then(function (response) {
+          me.dispositivos = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     
+        listarEditoriales() {
+      let me = this;
+      axios
+        .get("Editoriales")
+        .then(function (response) {
+          me.editoriales = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+     listarTipoMaterialById(value) {
+      let me = this;
+      axios
+        .get("Tipo_Materiales/" + value)
+        .then(function (response) {
+          me.nombreTipoMaterial = response.data.nombre;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+     listarAreaById(value) {
+      let me = this;
+      axios
+        .get("Areas/" + value)
+        .then(function (response) {
+          me.nombreArea = response.data.nombre;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    listarDispositivoById(value) {
+      let me = this;
+      axios
+        .get("Dispositivos/" + value)
+        .then(function (response) {
+          me.nombreDispositivo = response.data.nombre;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    listarEditorialById(value) {
+      let me = this;
+      axios
+        .get("Editoriales/" + value)
+        .then(function (response) {
+          me.nombreEditorial = response.data.nombre;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     limpiar() {
       (this._id = ""),
-        (this.nombre = ""),
+        (this.nombreMaterial = ""),
         (this.apellido = ""),
         (this.grado = ""),
         (this.nombreAcudiente = ""),
         (this.apellidoAcudiente = ""),
         (this.telefonoAcudiente = ""),
         (this.autorizacion = ""),
-        (this.activo = ""),
+        (this.nombreTipoMaterial = ""),
+        (this.nombreArea = ""),
+        (this.nombreDispositivo = ""),
+        (this.nombreEditorial = ""),
         (this.tipoMaterialSeleccionado=0),
+        (this.areaSeleccionada=0),
+        (this.dispositivoSeleccionado=0),
+        (this.editorialSeleccionada=0),
         (this.validaMensaje = []),
         (this. errors= []),
         (this.editedIndex = -1);
@@ -318,64 +395,56 @@ export default {
      //Metodo de validación para
     validarGuardado() {
       this.errors = [];
-       if (this.nombre === "") {
-        this.errors.push("Debe agregar un nombre");
+       if (this.areaSeleccionada === 0) {
+        this.errors.push("Debe seleccionar un area ");
         return false;
       }
-      if (this.apellido === "") {
-        this.errors.push("Debe agregar un apellido");
+      if (this.tipoMaterialSeleccionado === 0) {
+        this.errors.push("Debe seleccionar un tipo de material");
         return false;
       }
-      if (this.nombreAcudiente === "") {
-        this.errors.push("Debe agregar un nombre de acudiente");
+      if (this.nombreMaterial === "") {
+        this.errors.push("Debe agregar un un nombre de material");
         return false;
       }
-      if (this.apellidoAcudiente === "") {
-        this.errors.push("Debe agregar un apellido para el acudiente");
+      if (isNaN(this.cantidad)) {
+        this.errors.push("Ingrese solo números para la cantidad");
         return false;
       }
-      if (this.telefonoAcudiente === "") {
-        this.errors.push("Debe agregar un teléfono para el acudiente");
+      if (this.iesbn === "") {
+        this.errors.push("Debe agregar el Iesbn");
         return false;
       }
-      if (this.autorizacion === "") {
-        this.errors.push("Debe especificar la autorización");
-        return false;
-      }
-      if (this.activo === "") {
-        this.errors.push("Debe especificar si el alumnos esta activo");
+      if (this.grado === "") {
+        this.errors.push("Debe agregar el grado");
         return false;
       }
       return true;
     },
     validarEditar() {
-      this.errors = [];
-       if (this.nombre === "") {
-        this.errors.push("Debe agregar un nombre");
+       this.errors = [];
+       if (this.areaSeleccionada === 0) {
+        this.errors.push("Debe seleccionar un area ");
         return false;
       }
-      if (this.apellido === "") {
-        this.errors.push("Debe agregar un apellido");
+      if (this.tipoMaterialSeleccionado === 0) {
+        this.errors.push("Debe seleccionar un tipo de material");
         return false;
       }
-      if (this.nombreAcudiente === "") {
-        this.errors.push("Debe agregar un nombre de acudiente");
+      if (this.nombreMaterial === "") {
+        this.errors.push("Debe agregar un un nombre de material");
         return false;
       }
-      if (this.apellidoAcudiente === "") {
-        this.errors.push("Debe agregar un apellido para el acudiente");
+      if (isNaN(this.cantidad)) {
+        this.errors.push("Ingrese solo números para la cantidad");
         return false;
       }
-      if (this.telefonoAcudiente === "") {
-        this.errors.push("Debe agregar un teléfono para el acudiente");
+      if (this.iesbn === "") {
+        this.errors.push("Debe agregar el Iesbn");
         return false;
       }
-      if (this.autorizacion === "") {
-        this.errors.push("Debe especificar la autorización");
-        return false;
-      }
-      if (this.activo === "") {
-        this.errors.push("Debe especificar si el alumnos esta activo");
+      if (this.grado === "") {
+        this.errors.push("Debe agregar el grado");
         return false;
       }
       return true;
@@ -384,19 +453,21 @@ export default {
       let me = this;
      
       if (this.editedIndex > -1) {
-        //Codigo para editar un usuario
+        //Codigo para editar un material de prestamo
          if (this.validarGuardado()) {
      
         axios
-          .put("Detalle_Usuarios/" + this._id, {
+          .put("Material_Prestamos/" + this._id, {
             id: this._id,
-            nombre: this.nombre,
-            apellido: this.apellido,
-            nombreAcudiente: this.nombreAcudiente,
-            apellidoAcudiente: this.apellidoAcudiente,
-            telefonoAcudiente: this.telefonoAcudiente,
-            autorizacion: this.autorizacion,
-            activo: this.activo
+            id_Area: this.areaSeleccionada,
+            id_TipoMaterial: this.tipoMaterialSeleccionado,
+            id_Dispositivos: this.dispositivoSeleccionado,
+            id_Editorial: this.editorialSeleccionada,
+            nombreMaterial: this.nombreMaterial,
+            cantidad: this.cantidad,
+            observacion: this.observacion,
+            iesbn: this.iesbn,
+            grado: this.grado
           })
           .then(function(response) {
             me.limpiar();
@@ -409,16 +480,18 @@ export default {
         }
       } else {
         if(this.validarEditar()){
-        //Codigo para guardar un nuevo usuario
+        //Codigo para guardar un nuevo material de prestamo
         axios
-          .post("Detalle_Usuarios", {
-            nombre: this.nombre,
-            apellido: this.apellido,
-            nombreAcudiente: this.nombreAcudiente,
-            apellidoAcudiente: this.apellidoAcudiente,
-            telefonoAcudiente: this.telefonoAcudiente,
-            autorizacion: this.autorizacion,
-            activo: this.activo
+          .post("Material_Prestamos", {
+            id_Area: this.areaSeleccionada,
+            id_TipoMaterial: this.tipoMaterialSeleccionado,
+            id_Dispositivos: this.dispositivoSeleccionado,
+            id_Editorial: this.editorialSeleccionada,
+            nombreMaterial: this.nombreMaterial,
+            cantidad: this.cantidad,
+            observacion: this.observacion,
+            iesbn: this.iesbn,
+            grado: this.grado
           })
           .then(function(response) {
             me.limpiar();
@@ -434,7 +507,7 @@ export default {
     eliminar() {
       let me = this;
       axios
-        .delete("Detalle_Usuarios/" + this._id, {})
+        .delete("Material_Prestamos/" + this._id, {})
         .then(function(response) {
           me.limpiar();
           me.closeEliminar();
@@ -450,14 +523,19 @@ export default {
 
     editItem(item) {
       this._id = item.id;
-      this.nombre = item.nombre;
-      this.apellido = item.apellido;
+      this.areaSeleccionada = item.id_Area,
+      this.tipoMaterialSeleccionado = item.id_TipoMaterial,
+      this.dispositivoSeleccionado = item.id_Dispositivos,
+      this.editorialSeleccionada = item.id_Editorial,
+      this.nombreMaterial = item.nombreMaterial;
+      this.cantidad = item.cantidad;
+      this.observacion= item.observacion;
+      this.iesbn = item.iesbn;
       this.grado= item.grado;
-      this.nombreAcudiente = item.nombreAcudiente;
-      this.apellidoAcudiente= item.apellidoAcudiente;
-      this.telefonoAcudiente= item.telefonoAcudiente;
-      this.autorizacion= item.autorizacion;
-      this.activo = item.activo;
+      this.listarAreaById(item.id_Area);
+      this.listarTipoMaterialById(item.id_TipoMaterial);
+      this.listarDispositivoById(item.id_Dispositivos);
+      this.listarEditorialById(item.id_Editorial);
       this.dialog = true;
       this.editedIndex = 1;
     },
@@ -472,12 +550,18 @@ export default {
     closeEliminar() {
       this.dialogEliminar = false;
     },
-    selectAreas(value){
+    selectArea(value){
       this.areaSeleccionada= value;
     },
-      selectTipoMaterial(value) {
+    selectTipoMaterial(value) {
       this.tipoMaterialSeleccionado = value;
     },
+    selectDispositivo(value){
+      this.dispositivoSeleccionado = value;
+    },
+    selectEditorial(value){
+      this.editorialSeleccionada = value;
+    }
   },
 };
 </script>
