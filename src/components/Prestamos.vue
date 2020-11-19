@@ -25,40 +25,135 @@
             <v-card-text>
               <v-container grid-list-md>
                 <v-layout wrap>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="nombreMaterial"
-                      label="Nombre Material"
-                    ></v-text-field>
+                  <v-flex xs12 sm12 md12 lg12 xl12>
+                  <label>Meterial de Prestamo</label>
+                  <v-select
+                   :label="`${nombreMaterial}`"
+                    v-bind:items="materialesPrestamo"
+                    item-text="nombreMaterial"
+                    autocomplete
+                    no-data-text="No hay datos con esta descripción"
+                    item-value="id"
+                    persistent-hint
+                    single-line
+                    @change="selectMaterial"
+                    bottom
+                  ></v-select>
                   </v-flex>
-                  <v-spacer></v-spacer>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="nombreUsuario"
-                      label="Nombre Usuario"
-                    ></v-text-field>
+                  <v-flex xs12 sm12 md12 lg12 xl12>
+                  <label>Grado</label>
+                  <v-select
+                    label=""
+                    v-bind:items="grados"
+                    item-text="grado"
+                    autocomplete
+                    no-data-text="No hay datos con esta descripción"
+                    item-value="grado"
+                    persistent-hint
+                    single-line
+                    @change="selectGrado"
+                    bottom
+                  ></v-select>
+                  </v-flex>
+                  <v-flex xs12 sm12 md12 lg12 xl12>
+                  <label>Usuario</label>
+                  <v-select
+                    :label="`${nombreUsuario}`"
+                    v-bind:items="nombreUsuarios"
+                    item-text="nombre"
+                    autocomplete
+                    no-data-text="No hay datos con esta descripción"
+                    item-value="id"
+                    persistent-hint
+                    single-line
+                    @change="selectUsuario"
+                    bottom
+                  ></v-select>
                   </v-flex>
                    <v-spacer></v-spacer>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="apellidoUsuario"
-                      label="Apellido Usuario"
-                    ></v-text-field>
+                   <v-flex xs12 sm6 md12>
+                     <v-dialog
+                        ref="dialog"
+                        v-model="modalFechaInicio"
+                        :return-value.sync="date"
+                        persistent
+                        width="290px"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field
+                            v-model="dateInicio"
+                            label="Fecha Inicio"
+                            readonly
+                            v-bind="attrs"
+                            v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker
+                          v-model="dateInicio"
+                          scrollable
+                        >
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            text
+                            color="primary"
+                            @click="modalFechaInicio = false"
+                          >
+                            Cancelar
+                          </v-btn>
+                          <v-btn
+                            text
+                            color="primary"
+                            @click="$refs.dialog.save(date), modalFechaInicio=false"
+                          >
+                            OK
+                          </v-btn>
+                        </v-date-picker>
+                      </v-dialog>
                   </v-flex>
-                   <v-spacer></v-spacer>
                   <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="FechaInicial"
-                      label="Fecha Inicial"
-                    ></v-text-field>
+                     <v-dialog
+                        ref="dialog"
+                        v-model="modalFechaFin"
+                        :return-value.sync="date"
+                        persistent
+                        width="290px"
+                      >
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-text-field
+                            v-model="dateFinal"
+                            label="Fecha Final"
+                            readonly
+                            v-bind="attrs"
+                            v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker
+                          v-model="dateFinal"
+                          scrollable
+                        >
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            text
+                            color="primary"
+                            @click="modalFechaFin = false"
+                          >
+                            Cancelar
+                          </v-btn>
+                          <v-btn
+                            text
+                            color="primary"
+                            @click="$refs.dialog.save(date)"
+                          >
+                            OK
+                          </v-btn>
+                        </v-date-picker>
+                      </v-dialog>
                   </v-flex>
-                   <v-spacer></v-spacer>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="fechaFinal"
-                      label="Fecha Final"
-                    ></v-text-field>
-                  </v-flex>
+                  {{dateInicio}}
+                  <br>
+                  {{dateFinal}}
+                  <br>
+                  {{idMaterial}}
             <v-flex xs12 sm6 md12 v-show="valida">
               <div
               class="red--text"
@@ -70,7 +165,6 @@
               </v-layout>
             </v-container>
             </v-card-text>
-
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
@@ -142,12 +236,21 @@
 </template>
 <script>
 import axios from "axios";
+import VCalendar from 'v-calendar';
 export default {
   data() {
     return {
+      //Atributos para las fechas
+      dateInicio: new Date().toISOString().substr(0, 10),
+      modalFechaInicio: false,
+
+      dateFinal: new Date().toISOString().substr(0, 10),
+      modalFechaFin: false,
+    //Fin atributos para las fechas
       dialog: false,
       dialogEliminar: false,
       search: "",
+      materialSeleccionado:0,
       _id: "",
       idMaterial:"",
       nombreMaterial: "",
@@ -156,10 +259,16 @@ export default {
       apellidoUsuario:"",
       fechaInicial:"",
       fechaFinal:"",
+      nombreMaterialPrestamo:"",
+      gradoSeleccionado:"",
       valida: 0,
       errors: [],
+      materialesPrestamo:[],
       validaMensaje: [],
       prestamos: [],
+      usuarios:[],
+      nombreUsuarios:[],
+      grados:[],
       errorM: null,
       headers: [
         { text: "Id", value: "id", sortable: true },
@@ -187,6 +296,7 @@ export default {
   watch: {
     dialog(val) {
       val || this.close();
+      this.limpiar();
     },
        error(errors) {
       this.errors = errors;
@@ -194,6 +304,8 @@ export default {
   },
   created() {
     this.listar();
+    this.listarMaterialPrestamo();
+    this.listarGrados();
   },
   methods: {
     listar() {
@@ -209,6 +321,42 @@ export default {
           console.log(error);
         });
     },
+      listarMaterialPrestamo() {
+      let me = this;
+      axios
+        .get("Material_Prestamos")
+        .then(function(response) {
+          me.materialesPrestamo = response.data;
+        }
+    )
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+      listarGrados() {
+      let me = this;
+      axios
+        .get("Detalle_Usuarios")
+        .then(function(response) {
+          me.grados = response.data;
+        }
+    )
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+      listarNombresByGrados() {
+      let me = this;
+      axios
+        .get("Detalle_Usuarios/getNombresByGrado/" + this.gradoSeleccionado)
+        .then(function(response) {
+          me.nombreUsuarios = response.data;
+        }
+    )
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     limpiar() {
       (this._id = ""),
       (this.idMaterial = ""),
@@ -218,6 +366,8 @@ export default {
       (this.apellidoUsuario = ""),
       (this.fechaInicial = ""),
       (this.fechaFinal = ""),
+      (this.dateInicio = ""),
+      (this.dateFinal = ""),
       (this.validaMensaje = []),
       (this. errors= []),
       (this.editedIndex = -1);
@@ -292,14 +442,14 @@ export default {
      
       if (this.editedIndex > -1) {
         //Codigo para editar un usuario
-         if (this.validarGuardado()) {
+        // if (this.validarGuardado()) {
      
         axios
-          .put("Detalle_Usuarios/" + this._id, {
+          .put("Prestamos/" + this._id, {
             id: this._id,
             nombre: this.nombre,
             apellido: this.apellido,
-            grado: this.grado,
+            gradoSeleccionado: this.gradoSeleccionado,
             nombreAcudiente: this.nombreAcudiente,
             apellidoAcudiente: this.apellidoAcudiente,
             telefonoAcudiente: this.telefonoAcudiente,
@@ -314,20 +464,16 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
-        }
+       // }
       } else {
-        if(this.validarEditar()){
+      //  if(this.validarEditar()){
         //Codigo para guardar un nuevo usuario
         axios
-          .post("Detalle_Usuarios", {
-            nombre: this.nombre,
-            apellido: this.apellido,
-            grado: this.grado,
-            nombreAcudiente: this.nombreAcudiente,
-            apellidoAcudiente: this.apellidoAcudiente,
-            telefonoAcudiente: this.telefonoAcudiente,
-            autorizacion: this.autorizacion,
-            activo: this.activo
+          .post("Prestamos", {
+            id_MaterialPrestamo: this.materialSeleccionado,
+            id_DetalleUsuario: this.idUsuario,
+            fechaInicial: this.dateInicio,
+            fechaFinal: this.dateFinal
           })
           .then(function(response) {
             me.limpiar();
@@ -337,7 +483,7 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
-      }
+     // }
         }
     },
     eliminar() {
@@ -362,8 +508,8 @@ export default {
       this.nombreMaterial = item.nombreMaterial;
       this.nombreUsuario = item.nombreUsuario;
       this.apellidoUsuario= item.apellidoUsuario;
-      this.fechaInicial = item.fechaInicial;
-      this.fechaFinal= item.fechaFinal;
+      this.dateInicio = item.fechaInicial;
+      this.dateFinal= item.fechaFinal;
       this.dialog = true;
       this.editedIndex = 1;
     },
@@ -378,19 +524,16 @@ export default {
     closeEliminar() {
       this.dialogEliminar = false;
     },
-    changeAutorizacion(value) {
-     
-        this.autorizacion = value;
-        console.log(this.autorizacion);
-    
+    selectMaterial(value){
+      this.materialSeleccionado= value;
     },
-    changeActivo(value) {
-    
-        this.activo = value;
-        console.log(this.activo);
-    
+      selectGrado(value){
+      this.gradoSeleccionado= value;
+      this.listarNombresByGrados();
     },
-
+      selectUsuario(value){
+      this.idUsuario= value;
+    },
   },
 };
 </script>
