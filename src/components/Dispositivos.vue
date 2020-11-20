@@ -258,6 +258,8 @@ export default {
     },
     close() {
       this.dialog = false;
+       this.limpiar();
+      this.editedIndex= -1;
     },
     closeEliminar() {
       this.dialogEliminar = false;

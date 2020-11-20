@@ -384,6 +384,9 @@ export default {
         (this.nombreArea = ""),
         (this.nombreDispositivo = ""),
         (this.nombreEditorial = ""),
+        (this.cantidad=""),
+        (this.observacion=""),
+        (this.iesbn=""),
         (this.tipoMaterialSeleccionado=0),
         (this.areaSeleccionada=0),
         (this.dispositivoSeleccionado=0),
@@ -546,6 +549,8 @@ export default {
     },
     close() {
       this.dialog = false;
+       this.limpiar();
+      this.editedIndex= -1;
     },
     closeEliminar() {
       this.dialogEliminar = false;

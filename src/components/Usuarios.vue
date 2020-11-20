@@ -398,7 +398,6 @@ export default {
     mostrarmensaje() {
       this.dialogEliminar = false;
     },
-
     editItem(item) {
       this._id = item.id;
       this.nombre = item.nombre;
@@ -419,6 +418,8 @@ export default {
     },
     close() {
       this.dialog = false;
+       this.limpiar();
+      this.editedIndex= -1;
     },
     closeEliminar() {
       this.dialogEliminar = false;
@@ -435,7 +436,6 @@ export default {
         console.log(this.activo);
     
     },
-
   },
 };
 </script>

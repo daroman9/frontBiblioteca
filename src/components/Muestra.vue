@@ -26,7 +26,7 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm12 md12 lg12 xl12>
-                  <label>Meterial de Prestamo</label>
+                  <label>Material de Prestamo</label>
                   <v-select
                    :label="`${nombreMaterial}`"
                     v-bind:items="materialesPrestamo"
@@ -149,6 +149,11 @@
                         </v-date-picker>
                       </v-dialog>
                   </v-flex>
+                  {{dateInicio}}
+                  <br>
+                  {{dateFinal}}
+                  <br>
+                  {{idMaterial}}
             <v-flex xs12 sm6 md12 v-show="valida">
               <div
               class="red--text"
@@ -290,6 +295,7 @@ export default {
   },
   watch: {
     dialog(val) {
+      this.limpiar();
       val || this.close();
       
     },
@@ -357,7 +363,6 @@ export default {
       (this.idMaterial = ""),
       (this.nombreMaterial = ""),
       (this.idUsuario = ""),
-      (this.gradoSeleccionado=""),
       (this.nombreUsuario = ""),
       (this.apellidoUsuario = ""),
       (this.fechaInicial = ""),
@@ -371,44 +376,66 @@ export default {
      //Metodo de validación para
     validarGuardado() {
       this.errors = [];
-       if (this.materialSeleccionado === "") {
-        this.errors.push("Debe agregar un material de prestamo");
+       if (this.nombre === "") {
+        this.errors.push("Debe agregar un nombre");
         return false;
       }
-      if (this.idUsuario === "") {
-        this.errors.push("Debe agregar un usuario");
+      if (this.apellido === "") {
+        this.errors.push("Debe agregar un apellido");
         return false;
       }
-      if (this.dateInicio === "") {
-        this.errors.push("Debe agregar una fecha de inicio");
+      if (this.nombreAcudiente === "") {
+        this.errors.push("Debe agregar un nombre de acudiente");
         return false;
       }
-      if (this.dateFinal === "") {
-        this.errors.push("Debe agregar una fecha de fin");
+      if (this.apellidoAcudiente === "") {
+        this.errors.push("Debe agregar un apellido para el acudiente");
         return false;
       }
-     
+      if (this.telefonoAcudiente === "") {
+        this.errors.push("Debe agregar un teléfono para el acudiente");
+        return false;
+      }
+      if (this.autorizacion === "") {
+        this.errors.push("Debe especificar la autorización");
+        return false;
+      }
+      if (this.activo === "") {
+        this.errors.push("Debe especificar si el alumno esta activo");
+        return false;
+      }
       return true;
     },
     validarEditar() {
       this.errors = [];
-             if (this.materialSeleccionado === "") {
-        this.errors.push("Debe agregar un material de prestamo");
+       if (this.nombre === "") {
+        this.errors.push("Debe agregar un nombre");
         return false;
       }
-      if (this.idUsuario === "") {
-        this.errors.push("Debe agregar un usuario");
+      if (this.apellido === "") {
+        this.errors.push("Debe agregar un apellido");
         return false;
       }
-      if (this.dateInicio === "") {
-        this.errors.push("Debe agregar una fecha de inicio");
+      if (this.nombreAcudiente === "") {
+        this.errors.push("Debe agregar un nombre de acudiente");
         return false;
       }
-      if (this.dateFinal === "") {
-        this.errors.push("Debe agregar una fecha de fin");
+      if (this.apellidoAcudiente === "") {
+        this.errors.push("Debe agregar un apellido para el acudiente");
         return false;
       }
-     
+      if (this.telefonoAcudiente === "") {
+        this.errors.push("Debe agregar un teléfono para el acudiente");
+        return false;
+      }
+      if (this.autorizacion === "") {
+        this.errors.push("Debe especificar la autorización");
+        return false;
+      }
+      if (this.activo === "") {
+        this.errors.push("Debe especificar si el alumnos esta activo");
+        return false;
+      }
       return true;
     },
     guardar() {
@@ -416,15 +443,19 @@ export default {
      
       if (this.editedIndex > -1) {
         //Codigo para editar un usuario
-        if (this.validarEditar()) {
+        // if (this.validarGuardado()) {
      
         axios
           .put("Prestamos/" + this._id, {
             id: this._id,
-            id_MaterialPrestamo: this.materialSeleccionado,
-            id_DetalleUsuario: this.idUsuario,
-            fechaInicial: this.dateInicio,
-            fechaFinal: this.dateFinal
+            nombre: this.nombre,
+            apellido: this.apellido,
+            gradoSeleccionado: this.gradoSeleccionado,
+            nombreAcudiente: this.nombreAcudiente,
+            apellidoAcudiente: this.apellidoAcudiente,
+            telefonoAcudiente: this.telefonoAcudiente,
+            autorizacion: this.autorizacion,
+            activo: this.activo
           })
           .then(function(response) {
             me.limpiar();
@@ -434,9 +465,9 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
-       }
+       // }
       } else {
-        if(this.validarGuardado()){
+      //  if(this.validarEditar()){
         //Codigo para guardar un nuevo usuario
         axios
           .post("Prestamos", {
@@ -453,13 +484,13 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
-      }
+     // }
         }
     },
     eliminar() {
       let me = this;
       axios
-        .delete("Prestamos/" + this._id, {})
+        .delete("Detalle_Usuarios/" + this._id, {})
         .then(function(response) {
           me.limpiar();
           me.closeEliminar();
@@ -476,8 +507,6 @@ export default {
     editItem(item) {
       this._id = item.id;
       this.nombreMaterial = item.nombreMaterial;
-      this.idUsuario = item.idUsuario;
-      this.materialSeleccionado = item.idMaterial;
       this.nombreUsuario = item.nombreUsuario;
       this.apellidoUsuario= item.apellidoUsuario;
       this.dateInicio = item.fechaInicial;
@@ -492,8 +521,6 @@ export default {
     },
     close() {
       this.dialog = false;
-       this.limpiar();
-      this.editedIndex= -1;
     },
     closeEliminar() {
       this.dialogEliminar = false;
