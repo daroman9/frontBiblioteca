@@ -38,6 +38,12 @@
                       label="Apellidos"
                     ></v-text-field>
                   </v-flex>
+                    <v-flex xs12 sm6 md12>
+                    <v-text-field
+                      v-model="documento"
+                      label="Documento"
+                    ></v-text-field>
+                  </v-flex>
                    <v-spacer></v-spacer>
                   <v-flex xs12 sm6 md12>
                     <v-text-field
@@ -105,7 +111,6 @@
               </v-layout>
             </v-container>
             </v-card-text>
-
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
@@ -156,6 +161,7 @@
           <td>{{ props.item.id }}</td>
           <td>{{ props.item.nombre }}</td>
           <td>{{ props.item.apellido }}</td>
+          <td>{{ props.item.documento }}</td>
           <td>{{ props.item.grado }}</td>
           <td>{{ props.item.nombreAcudiente }}</td>
           <td>{{ props.item.apellidoAcudiente }}</td>
@@ -189,6 +195,7 @@ export default {
       _id: "",
       nombre: "",
       apellido: "",
+      documento:"",
       grado: "",
       nombreAcudiente:"",
       apellidoAcudiente:"",
@@ -204,6 +211,7 @@ export default {
         { text: "Id", value: "id", sortable: true },
         { text: "Nombres", value: "nombre", sortable: true },
         { text: "Apellidos", value: "apellido", sortable: true },
+        { text: "Documento", value: "documento", sortable: true },
         { text: "Grado", value: "grado", sortable: true },
         { text: "Nombres Acudiente", value: "nombreAcudiente", sortable: false },
         { text: "Apellidos Acudiente", value: "apellidoAcudiente", sortable: false },
@@ -254,6 +262,7 @@ export default {
       (this._id = ""),
         (this.nombre = ""),
         (this.apellido = ""),
+         (this.documento = ""),
         (this.grado = ""),
         (this.nombreAcudiente = ""),
         (this.apellidoAcudiente = ""),
@@ -273,6 +282,10 @@ export default {
       }
       if (this.apellido === "") {
         this.errors.push("Debe agregar un apellido");
+        return false;
+      }
+        if (this.documento === "") {
+        this.errors.push("Debe agregar un documento");
         return false;
       }
       if (this.nombreAcudiente === "") {
@@ -342,6 +355,7 @@ export default {
             nombre: this.nombre,
             apellido: this.apellido,
             grado: this.grado,
+            documento: this.documento,
             nombreAcudiente: this.nombreAcudiente,
             apellidoAcudiente: this.apellidoAcudiente,
             telefonoAcudiente: this.telefonoAcudiente,
@@ -364,6 +378,7 @@ export default {
           .post("Detalle_Usuarios", {
             nombre: this.nombre,
             apellido: this.apellido,
+            documento: this.documento,
             grado: this.grado,
             nombreAcudiente: this.nombreAcudiente,
             apellidoAcudiente: this.apellidoAcudiente,
@@ -402,6 +417,7 @@ export default {
       this._id = item.id;
       this.nombre = item.nombre;
       this.apellido = item.apellido;
+      this.documento= item.documento;
       this.grado= item.grado;
       this.nombreAcudiente = item.nombreAcudiente;
       this.apellidoAcudiente= item.apellidoAcudiente;

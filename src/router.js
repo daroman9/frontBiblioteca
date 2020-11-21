@@ -10,6 +10,7 @@ import Dispositivos from "./components/Dispositivos.vue";
 import Editoriales from "./components/Editoriales.vue";
 import Prestamos from "./components/Prestamos.vue";
 import Usuarios from "./components/Usuarios.vue";
+import Consultas from "./components/Consultas.vue";
 import Login from "./components/Login.vue";
 
 Vue.use(Router);
@@ -93,6 +94,14 @@ var router = new Router({
             path: "/prestamos",
             name: "prestamos",
             component: Prestamos,
+            meta: {
+                libre: true,
+            },
+        },
+        {
+            path: "/consultas",
+            name: "consultas",
+            component: Consultas,
             meta: {
                 libre: true,
             },

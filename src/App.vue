@@ -97,6 +97,14 @@
                 <v-list-tile-title>Prestamos</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
+              <v-list-tile :to="{ name: 'consultas' }">
+              <v-list-tile-action>
+                <v-icon>table_chart</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Consultas</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
           </v-list-group>
         </template>
       </v-list>
